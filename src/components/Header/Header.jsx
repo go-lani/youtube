@@ -1,8 +1,8 @@
 import React from 'react';
 import YoutubeLogo from './images/youtube-logo.png'
-import './Nav.css';
+import './Header.css';
 
-const Nav = props => {
+const Header = props => {
   return (
     <nav id="navigation">
       <h1>
@@ -13,4 +13,4 @@ const Nav = props => {
   );
 };
 
-export default Nav;
+export default Header;

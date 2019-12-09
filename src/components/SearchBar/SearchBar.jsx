@@ -2,9 +2,24 @@ import React from 'react';
 import './SearchBar.css';
 
 const SearchBar = props => {
+  // HOC: High order component 두개 이상의 함수를 받아서 하나의 컴포넌트로 만드는 것
+  const handleEnter = search => e => {
+    // search = props.onSearchVideos search에 함수를 받는다.
+    // props.onSearchVideos(e)와 동일하게 동작
+    // 이벤트 핸들러를 리턴해준다
+    if (e.key === 'enter') {
+      search(e.target.value);
+    }
+  };
+
   return (
     <div>
-      <input type="text" placeholder="검색" />
+      <input
+        type="text"
+        onChange={e => props.setInput(e.target.value)}
+        onKeyPress={handleEnter(props.onSearchVideos)}
+        className="search-bar"
+        placeholder="검색" />
       <button type="button">
         <svg
           viewBox="0 0 24 24"
