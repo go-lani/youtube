@@ -1,6 +1,27 @@
-#navigation {
-
+#header {
+  padding: 0 30px;
 }
-h1 {
-  margin: 0;
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  max-width: 100%;
+  width: 1024px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+.logo {
+  width: 200px;
+}
+
+.logo a {
+  display: block;
+}
+
+.logo img {
+  max-width: 100%;
+  width: 100%;
 }

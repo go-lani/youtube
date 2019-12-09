@@ -3,9 +3,11 @@ import axios from 'axios';
 import uuid from 'uuid';
 import { debounce } from 'lodash';
 import InfiniteScroll from 'react-infinite-scroller';
-import Header from './components/Header/Header'
-import SearchBar from './components/SearchBar/SearchBar'
-import spinner from './components/images/spinner.gif'
+import Header from './components/Header/Header';
+import SearchBar from './components/SearchBar/SearchBar';
+import VideoList from './components/VideoList/VideoList';
+import spinner from './components/images/spinner.gif';
+import './App.css';
 
 class App extends Component {
   constructor(props) {
@@ -35,7 +37,7 @@ class App extends Component {
       key: 'AIzaSyCCoK6VE_bGcRVZO1wK-5MEeJJHMcRDxs0',
       q: query,
       part: 'snippet',
-      maxResults: 10,
+      maxResults: 5,
       pageToken: nextPageToken,
     };
 
@@ -43,7 +45,7 @@ class App extends Component {
       const { data } = await axios.get('https://www.googleapis.com/youtube/v3/search', { params }); // 기본적인 api 주소를 입력하고, params를 별도로 입력해준다. 이때 params에는 post맨의 옵션과 같이쓴다.
       this.setState({
         videos: [...this.state.videos, ...data.items]
-       });
+      });
     } catch(err) {
       console.error(err);
     }
@@ -52,7 +54,7 @@ class App extends Component {
   async componentWillMount() {
     // render 이전
     // DidMount와 많이 차이는 없지만 주로 setState의 초기값을 지정해주고 싶을때 사용
-    this.getYoutubeData('여행');
+    // this.getYoutubeData('여행');
   }
 
   setInput(input) {
@@ -60,26 +62,27 @@ class App extends Component {
   }
 
   render() {
-    // this.state.data < 이렇게 map으로 써도 되는지?
+    const { input } = this.state;
     return (
       <div className="App">
         <Header>
           <SearchBar input={input} setInput={this.setInput} onSearchVideos={debounce(this.getYoutubeData, 1000)}/>
         </Header>
-        <InfiniteScroll
+
+        {/* <InfiniteScroll
           loadMore={() => this.getYoutubeData(this.state.query)}
           hasMore={!!this.state.nextPageToken}
           loader={
             <div key={uuid.v4()} className="loader">
               <img src={spinner} alt="loading" />
-            </div>
-          }>
+            </div> */}
+          {/* }> */}
           {/* 무한로딩으로 렌더링될 모든 컴포넌트가 들어올 수 있다 */}
           <VideoList
             {...this.state} // 모든 state를 props으로 넘긴다.
-            onVideoSelect={selectedVideo => this.setState({ selectedVideo })} />
-        </InfiniteScroll>
-        {/* <VideoList /> */}
+            // onVideoSelect={selectedVideo => this.setState({ selectedVideo })}
+          />
+        {/* </InfiniteScroll> */}
       </div>
     );
   }

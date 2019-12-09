@@ -4,12 +4,14 @@ import './Header.css';
 
 const Header = props => {
   return (
-    <nav id="navigation">
-      <h1>
-        <a href="/"><img src={YoutubeLogo} alt="youtube"/></a>
-      </h1>
-      {props.children}
-    </nav>
+    <header id="header">
+      <div className="header-inner">
+        <h1 className="logo">
+          <a href="/"><img src={YoutubeLogo} alt="youtube"/></a>
+        </h1>
+        {props.children}
+      </div>
+    </header>
   );
 };
 
