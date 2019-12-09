@@ -1,46 +1,41 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
+import Nav from './components/Nav/Nav'
+import SearchBar from './components/SearchBar/SearchBar'
+import axios from 'axios';
 
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      data: [],
-    };
-    this.searchVideo = this.searchVideo.bind(this);
+    this.state = {};
+    Object.getOwnPropertyNames(App.prototype).forEach(key => this[key] = this[key].bind(this))
   }
 
   async getYoutubeData(query) {
+    const params = {
+      key: '',
+      q: query,
+      part: 'snippet',
+      maxResults: 10,
+      // pageToken: nextPageToken,
+    };
+
     try {
-      const data = await Axios.get(`https://www.googleapis.com/youtube/v3/search?key=AIzaSyCT5YNj0WpEUrt_4K8b3GZ6NoBZTOImXMA&q=${query}&part=snippet`); // 실제 데이터
-      this.setState({ data: data.data.items });
-      console.log(this.state.data);
-    } catch(e) {
-      console.error(e);
+      const { data } = await axios.get('https://www.googleapis.com/youtube/v3/search', { params }); // 기본적인 api 주소를 입력하고, params를 별도로 입력해준다. 이때 params에는 post맨의 옵션과 같이쓴다.
+      this.setState({ data });
+    } catch(err) {
+      console.error(err);
     }
-  }
-
-  searchVideo({ target, keyCode }) {
-    const value = target.value.trim();
-
-    if (value === '' || keyCode !== 13) return;
-
-    this.getYoutubeData(value);
-
-    target.value = '';
   }
 
   render() {
     // this.state.data < 이렇게 map으로 써도 되는지?
     return (
-      <>
-        <div className="App">
-          <input type="text" onKeyUp={this.searchVideo} />
-          <ul>
-            {this.state.data.map(video => <li key={video.etag}>{video.snippet.title}</li>)}
-          </ul>
-        </div>
-      </>
+      <div className="App">
+        <Nav>
+          <SearchBar />
+        </Nav>
+        {/* <VideoList /> */}
+      </div>
     );
   }
 }
