@@ -1,6 +1,7 @@
 .search-area {
+  position: relative;
   width: 60%;
-  text-align: center;
+  padding: 0 45px 0 0;
 }
 
 
@@ -9,18 +10,24 @@
 }
 
 .search-area .search-ipt {
-  width: 80%;
+  width: 100%;
   height: 44px;
-  font-size: 18px;
+  font-size: 15px;
   padding: 0 15px;
   border: 1px solid #ccc;
+  border-radius: 3px 0 0 3px;
 }
 
 .search-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
   padding: 0 10px;
   border-style: solid;
   border-width: 1px 1px 1px 0;
   border-color: #ccc;
+  border-radius: 0 3px 3px 0;
+  background: #fff;
 }
 
 .search-icon {

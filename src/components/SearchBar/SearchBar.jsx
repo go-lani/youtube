@@ -12,13 +12,9 @@ const SearchBar = props => {
     }
   };
 
-  // function handleEnter(search) {
-  //   return function(e) {
-  //     if (e.key === 'enter') {
-  //       search(e.target.value);
-  //     }
-  //   }
-  // }
+  const handleClick = search => e => {
+    search(props.input);
+  };
 
   return (
     <div className="search-area">
@@ -27,8 +23,8 @@ const SearchBar = props => {
         onChange={e => props.setInput(e.target.value)}
         onKeyPress={handleEnter(props.onSearchVideos)}
         className="search-ipt"
-        placeholder="검색" />
-      <button type="button" className="search-btn">
+        placeholder="검색어를 입력해주세요" />
+      <button type="button" className="search-btn" onClick={handleClick(props.onSearchVideos)}>
         <svg
           viewBox="0 0 24 24"
           preserveAspectRatio="xMidYMid meet"

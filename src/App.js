@@ -78,10 +78,10 @@ class App extends Component {
             </div> */}
           {/* }> */}
           {/* 무한로딩으로 렌더링될 모든 컴포넌트가 들어올 수 있다 */}
-          <VideoList
-            {...this.state} // 모든 state를 props으로 넘긴다.
-            // onVideoSelect={selectedVideo => this.setState({ selectedVideo })}
-          />
+          {
+            !!this.state.videos && <VideoList {...this.state}/> // onVideoSelect={selectedVideo => this.setState({ selectedVideo })}
+          }
+
         {/* </InfiniteScroll> */}
       </div>
     );

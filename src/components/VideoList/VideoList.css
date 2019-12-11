@@ -8,3 +8,56 @@
   margin: 0 auto;
   text-align: center;
 }
+
+.video-items {
+  margin: 50px 0 0;
+}
+
+.video-items:first-child {
+  margin: 0;
+}
+
+.video-items a {
+  display: block;
+}
+
+.items-inner {
+  display: flex;
+  align-items: flex-start;
+  font-size: 20px;
+}
+
+.thumbs {
+  overflow: hidden;
+  position: relative;
+  max-width: 100%;
+  width: 300px;
+  height: 200px;
+  flex: 0 0 auto;
+}
+
+.thumbs img {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+}
+
+.caption {
+  flex: 1 1 auto;
+  padding: 30px;
+  text-align: left;
+  word-break: break-all;
+}
+
+.caption .title {
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.caption .description {
+  margin: 20px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
