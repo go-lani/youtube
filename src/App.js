@@ -16,12 +16,11 @@ class App extends Component {
     super(props);
     this.state = {
       videos: [],
-      selectedVideoId: null,
+      selectedVideo: null,
       query: '',
       nextPageToken: null
     };
 
-    // 화면전환시 초기화를 위해서 초기값을 저장해준다
     this.defaultState = this.state;
 
     Object.getOwnPropertyNames(App.prototype).forEach(key => this[key] = this[key].bind(this));
@@ -45,6 +44,7 @@ class App extends Component {
 
     try {
       const { data } = await axios.get('https://www.googleapis.com/youtube/v3/search', { params });
+
       this.setState({
         videos: [...this.state.videos, ...data.items],
         query,
@@ -61,13 +61,9 @@ class App extends Component {
     this.getYoutubeData('여행');
   }
 
-  setVideo (id) {
-    this.setState( { selectedVideoId : id })
-  }
-
   render() {
     // 랜더전에 비구조화로 선언을 하면 this.를 안붙여도 되게된다.
-    const { selectedVideoId } = this.state;
+    const { selectedVideo } = this.state;
 
     return (
       <div className="App">
@@ -75,8 +71,8 @@ class App extends Component {
           <SearchBar onSearchVideos={debounce(this.getYoutubeData, 500)}/>
         </Header>
         {
-          selectedVideoId
-          ? <VideoPlayer videoId={selectedVideoId} />
+          selectedVideo
+          ? <VideoPlayer selectedVideo={this.state.selectedVideo} />
           : <InfiniteScroll
               loadMore={() => this.getYoutubeData(this.state.query)}
               // 스크롤이 끝까지 내려지면 사용할 메소드를 써야되고 파라미터가 없더라도 arrow function으로 써야된다.
@@ -90,10 +86,9 @@ class App extends Component {
               <VideoList>
                 <VideoListItem
                   videoInfo={this.state.videos}
-                  onVideoSelect={(selectedVideoId) => this.setVideo(selectedVideoId)}
+                  onVideoSelect={(selectedVideo) => this.setState({ selectedVideo })}
                 />
               </VideoList>
-              {/* {!!this.state.videos && <VideoList {...this.state} onVideoSelect={selectedVideoId => this.setState({selectedVideoId})}/>} */}
             </InfiniteScroll>
         }
       </div>

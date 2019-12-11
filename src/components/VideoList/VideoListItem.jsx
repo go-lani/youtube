@@ -10,13 +10,9 @@ const VideoListItem = props => {
   //   channel: props.videoInfo.snippet.channelTitle,
   //   id: props.videoInfo.id.videoId,
   // }
-  console.log('VideoListItem', props)
   return (
     props.videoInfo.map(video =>
-      <li className="video-items" key={uuid.v4()} onClick={(e) => {
-        console.log(video.id.videoId);
-        props.onVideoSelect(video.id.videoId)
-        }}>
+      <li className="video-items" key={uuid.v4()} onClick={(e) => props.onVideoSelect(video)}>
         <a href="#self">
           <figure className="items-inner">
             <div className="thumbs">
