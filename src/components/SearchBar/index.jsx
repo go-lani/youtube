@@ -18,7 +18,7 @@ const SearchBar = props => {
       <input
         ref={ref => (input = ref)} // ref는 해당하는 컴포넌트를 DOM 객체 처럼 참조하는 코드, input에 매개변수 ref(해당 가상DOM의 참조 값이)를 담아준다.
         type="search"
-        // onChange={e => props.onSearchVideos(e.target.value)}
+        onChange={e => props.onSearchVideos(e.target.value)}
         onKeyPress={handleEnter(props.onSearchVideos)}
         // High Order Component식이 아닌 것
         // onKeyPress={e => {
