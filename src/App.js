@@ -3,9 +3,11 @@ import axios from 'axios';
 import uuid from 'uuid';
 import { debounce } from 'lodash';
 import InfiniteScroll from 'react-infinite-scroller';
-import Header from './components/Header/Header';
-import SearchBar from './components/SearchBar/SearchBar';
-import VideoList from './components/VideoList/VideoList';
+import Header from './components/Header';
+import SearchBar from './components/SearchBar';
+import VideoList from './components/VideoList';
+import VideoListItem from './components/VideoList/VideoListItem';
+import VideoPlayer from './components/VideoPlayer';
 import spinner from './components/images/spinner.gif';
 import './App.css';
 
@@ -14,12 +16,13 @@ class App extends Component {
     super(props);
     this.state = {
       videos: [],
-      selectedVideo: null,
+      selectedVideoId: null,
       query: '',
       nextPageToken: null
     };
 
-    this.defaultState = this.state; // 초기화 스테이트를 저장한다(백업용)
+    // 화면전환시 초기화를 위해서 초기값을 저장해준다
+    this.defaultState = this.state;
 
     Object.getOwnPropertyNames(App.prototype).forEach(key => this[key] = this[key].bind(this));
   }
@@ -27,7 +30,6 @@ class App extends Component {
   async getYoutubeData(query) {
     if (!query) return;
     if (this.state.query !== query) {
-      // 검색어가 바뀌면 기존 state를 초기화 한다, 초기화를 하는 이유는 검색 시 검색결과를 초기화 해야되기 때문이다.
       this.setState(this.defaultState)
     }
 
@@ -42,9 +44,11 @@ class App extends Component {
     };
 
     try {
-      const { data } = await axios.get('https://www.googleapis.com/youtube/v3/search', { params }); // 기본적인 api 주소를 입력하고, params를 별도로 입력해준다. 이때 params에는 post맨의 옵션과 같이쓴다.
+      const { data } = await axios.get('https://www.googleapis.com/youtube/v3/search', { params });
       this.setState({
-        videos: [...this.state.videos, ...data.items]
+        videos: [...this.state.videos, ...data.items],
+        query,
+        nextPageToken: data.nextPageToken
       });
     } catch(err) {
       console.error(err);
@@ -54,35 +58,44 @@ class App extends Component {
   async componentWillMount() {
     // render 이전
     // DidMount와 많이 차이는 없지만 주로 setState의 초기값을 지정해주고 싶을때 사용
-    // this.getYoutubeData('여행');
+    this.getYoutubeData('여행');
   }
 
-  setInput(input) {
-    this.setState({ input })
+  setVideo (id) {
+    this.setState( { selectedVideoId : id })
   }
 
   render() {
-    const { input } = this.state;
+    // 랜더전에 비구조화로 선언을 하면 this.를 안붙여도 되게된다.
+    const { selectedVideoId } = this.state;
+
     return (
       <div className="App">
         <Header>
-          <SearchBar input={input} setInput={this.setInput} onSearchVideos={debounce(this.getYoutubeData, 1000)}/>
+          <SearchBar onSearchVideos={debounce(this.getYoutubeData, 500)}/>
         </Header>
-
-        {/* <InfiniteScroll
-          loadMore={() => this.getYoutubeData(this.state.query)}
-          hasMore={!!this.state.nextPageToken}
-          loader={
-            <div key={uuid.v4()} className="loader">
-              <img src={spinner} alt="loading" />
-            </div> */}
-          {/* }> */}
-          {/* 무한로딩으로 렌더링될 모든 컴포넌트가 들어올 수 있다 */}
-          {
-            !!this.state.videos && <VideoList {...this.state}/> // onVideoSelect={selectedVideo => this.setState({ selectedVideo })}
-          }
-
-        {/* </InfiniteScroll> */}
+        {
+          selectedVideoId
+          ? <VideoPlayer videoId={selectedVideoId} />
+          : <InfiniteScroll
+              loadMore={() => this.getYoutubeData(this.state.query)}
+              // 스크롤이 끝까지 내려지면 사용할 메소드를 써야되고 파라미터가 없더라도 arrow function으로 써야된다.
+              // 다음페이지에 데이터만 추가하면 되는 것이기에 기존 상태의 쿼리를 파라미터로 넘겨주는 것이다.
+              hasMore={!!this.state.nextPageToken}
+              loader={
+                <div key={uuid.v4()} className="loader">
+                  <img src={spinner} alt="loading" />
+                </div>
+              }>
+              <VideoList>
+                <VideoListItem
+                  videoInfo={this.state.videos}
+                  onVideoSelect={(selectedVideoId) => this.setVideo(selectedVideoId)}
+                />
+              </VideoList>
+              {/* {!!this.state.videos && <VideoList {...this.state} onVideoSelect={selectedVideoId => this.setState({selectedVideoId})}/>} */}
+            </InfiniteScroll>
+        }
       </div>
     );
   }
