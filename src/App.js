@@ -3,9 +3,9 @@ import axios from 'axios';
 import uuid from 'uuid';
 import { debounce } from 'lodash';
 import InfiniteScroll from 'react-infinite-scroller';
-import Header from './components/Header/Header';
-import SearchBar from './components/SearchBar/SearchBar';
-import VideoList from './components/VideoList/VideoList';
+import Header from './components/Header';
+import SearchBar from './components/SearchBar';
+import VideoList from './components/VideoList';
 import spinner from './components/images/spinner.gif';
 import './App.css';
 
@@ -19,7 +19,7 @@ class App extends Component {
       nextPageToken: null
     };
 
-    this.defaultState = this.state; // 초기화 스테이트를 저장한다(백업용)
+    this.defaultState = this.state;
 
     Object.getOwnPropertyNames(App.prototype).forEach(key => this[key] = this[key].bind(this));
   }
@@ -27,7 +27,6 @@ class App extends Component {
   async getYoutubeData(query) {
     if (!query) return;
     if (this.state.query !== query) {
-      // 검색어가 바뀌면 기존 state를 초기화 한다, 초기화를 하는 이유는 검색 시 검색결과를 초기화 해야되기 때문이다.
       this.setState(this.defaultState)
     }
 
@@ -42,7 +41,7 @@ class App extends Component {
     };
 
     try {
-      const { data } = await axios.get('https://www.googleapis.com/youtube/v3/search', { params }); // 기본적인 api 주소를 입력하고, params를 별도로 입력해준다. 이때 params에는 post맨의 옵션과 같이쓴다.
+      const { data } = await axios.get('https://www.googleapis.com/youtube/v3/search', { params });
       this.setState({
         videos: [...this.state.videos, ...data.items]
       });
@@ -66,7 +65,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header>
-          <SearchBar input={input} setInput={this.setInput} onSearchVideos={debounce(this.getYoutubeData, 1000)}/>
+          <SearchBar input={input} setInput={this.setInput} onSearchVideos={debounce(this.getYoutubeData, 500)}/>
         </Header>
 
         {/* <InfiniteScroll
