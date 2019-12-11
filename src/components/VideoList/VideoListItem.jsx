@@ -3,14 +3,6 @@ import uuid from 'uuid';
 import './VideoList.css';
 
 const VideoListItem = props => {
-
-  // const videoData = {
-  //   title: props.videoInfo.snippet.title,
-  //   img: props.videoInfo.snippet.thumbnails.high.url,
-  //   channel: props.videoInfo.snippet.channelTitle,
-  //   id: props.videoInfo.id.videoId,
-  // }
-
   const videoItems = props.videoInfo.map(video =>
     <li className="video-items" key={uuid.v4()} onClick={(e) => props.onVideoSelect(video)}>
       <a href="#self">
