@@ -13,7 +13,7 @@ import './App.css';
 
 class App extends Component {
   constructor(props) {
-    super(props);
+    super(props); // 상위 컴포넌트의 constructor의 모든 것을 가져온다. 상위 컴포넌트의 constructor에는 state도 있고 setState도 있다.
     this.state = {
       videos: [],
       selectedVideo: null,
@@ -22,10 +22,13 @@ class App extends Component {
     };
 
     this.defaultState = this.state;
-
+    // this.add = this.add.bind(this)
+    // this.state와 this.setState를 사용하기 위해서 bind 해준다.
     Object.getOwnPropertyNames(App.prototype).forEach(key => this[key] = this[key].bind(this));
+    // ['add' , 'getYou...'].forEach(key => React.Component[React.Component] = React.Component['add'].bind('React.Component'));
   }
 
+  // this = APP
   async getYoutubeData(query) {
     if (!query) return;
     if (this.state.query !== query) {
@@ -35,7 +38,7 @@ class App extends Component {
     const { nextPageToken } = this.state;
 
     const params = {
-      key: 'AIzaSyCCoK6VE_bGcRVZO1wK-5MEeJJHMcRDxs0',
+      key: process.env.REACT_APP_YOUTUBE_API_KEY,
       q: query,
       part: 'snippet',
       maxResults: 5,
