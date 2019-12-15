@@ -4,8 +4,14 @@ import './VideoList.css';
 
 const VideoListItem = props => {
   const videoItems = props.videoInfo.map(video =>
-    <li className="video-items" key={uuid.v4()} onClick={(e) => props.onVideoSelect(video)}>
-      <a href="#self">
+    <li className="video-items" key={uuid.v4()}>
+      <a
+        href="/"
+        onClick={e => {
+          e.preventDefault();
+          props.onVideoSelect(video)
+        }
+      }>
         <figure className="items-inner">
           <div className="thumbs">
             <img src={video.snippet.thumbnails.high.url} alt={video.snippet.title} />
