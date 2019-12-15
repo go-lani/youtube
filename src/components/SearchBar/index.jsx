@@ -1,13 +1,12 @@
 import React from 'react';
 import './SearchBar.css';
 
-const SearchBar = props => {
-  // HOC: High order component 두개 이상의 함수를 받아서 하나의 컴포넌트로 만드는 것
+const SearchBar = ({query , onSearchVideos}) => {
   const handleEnter = search => e => {
     // search = props.onSearchVideos search에 함수를 받는다.
     // props.onSearchVideos(e)와 동일하게 동작
     // e를 받는 props.onSearchVideos 함수가 되어 리턴된다.
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && query !== e.target.value) {
       search(e.target.value);
     }
   };
@@ -18,8 +17,8 @@ const SearchBar = props => {
       <input
         ref={ref => (input = ref)} // ref는 해당하는 컴포넌트를 DOM 객체 처럼 참조하는 코드, input에 매개변수 ref(해당 가상DOM의 참조 값이)를 담아준다.
         type="search"
-        onChange={e => props.onSearchVideos(e.target.value)}
-        onKeyPress={handleEnter(props.onSearchVideos)}
+        onChange={e => onSearchVideos(e.target.value)}
+        onKeyPress={handleEnter(onSearchVideos)}
         // High Order Component식이 아닌 것
         // onKeyPress={e => {
         //   if (e.key === 'Enter') {
@@ -35,7 +34,7 @@ const SearchBar = props => {
         className="search-ipt"
         placeholder="검색어를 입력해주세요"
       />
-      <button type="button" className="search-btn" onClick={() => props.onSearchVideos(input.value)}>
+      <button type="button" className="search-btn" onClick={() => onSearchVideos(input.value)}>
         <svg
           viewBox="0 0 24 24"
           preserveAspectRatio="xMidYMid meet"

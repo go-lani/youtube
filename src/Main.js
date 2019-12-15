@@ -70,7 +70,7 @@ class Main extends Component {
     return (
       <div className="App">
         <Header>
-          <SearchBar onSearchVideos={debounce(this.getYoutubeData, 500)}/>
+          <SearchBar query={query} onSearchVideos={debounce(this.getYoutubeData, 500)}/>
         </Header>
         <InfiniteScroll
           loadMore={() => this.getYoutubeData(query)}
@@ -83,7 +83,10 @@ class Main extends Component {
           <VideoList>
             <VideoListItem
               videoInfo={videos}
-              onVideoSelect={selectedVideo => this.props.history.push(`/watch/${selectedVideo.id.videoId}`)}
+              onVideoSelect={selectedVideo => {
+                // this.props.history.push(`/watch/${selectedVideo.id.videoId}`) // REST API
+                this.props.history.push(`/watch?v=${selectedVideo.id.videoId}`); // Query String
+              }}
             />
           </VideoList>
         </InfiniteScroll>

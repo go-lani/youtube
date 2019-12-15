@@ -1,12 +1,18 @@
 import React from 'react';
+import qs from 'query-string';
 import './VideoPlayer.css';
 
 const VideoPlayer = props => {
   const { videoId } = props.match.params;
 
-  if (!videoId) return null;
+  // console.log(videoId);
+  const { v } = qs.parse(props.location.search);
+  console.log('props.location.search', props.location.search);
+  console.log('qs.parse', qs.parse(props.location.search));
 
-  const url = `https://www.youtube.com/embed/${videoId}`
+  if (!videoId && !v) return null;
+
+  const url = `https://www.youtube.com/embed/${videoId || v}`
   return (
     <section className="video-section">
       <figure className="video-area">
