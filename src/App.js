@@ -12,9 +12,9 @@ const App = () => {
     <Router>
       <Switch>
         <Route path="/watch/:videoId" component={ VideoPlayer } />
-        <Route path="/watch" component={VideoPlayer} />
-        <Route path="/results" component={Main} />
-        <Route path="/" component={Main} />
+        <Route path="/watch" component={ VideoPlayer } />
+        <Route path="/results" component={ Main } />
+        <Route path="/" component={ Main } />
       </Switch>
     </Router>
   );

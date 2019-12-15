@@ -83,7 +83,7 @@ class Main extends Component {
           <VideoList>
             <VideoListItem
               videoInfo={videos}
-              onVideoSelect={selectedVideo => this.props.history.push(`/watch/v=${selectedVideo.id.videoId}`)}
+              onVideoSelect={selectedVideo => this.props.history.push(`/watch/${selectedVideo.id.videoId}`)}
             />
           </VideoList>
         </InfiniteScroll>
