@@ -8,7 +8,6 @@ import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import VideoList from './components/VideoList';
 import VideoListItem from './components/VideoList/VideoListItem';
-import VideoPlayer from './components/VideoPlayer';
 import spinner from './components/images/spinner.gif';
 import './App.css';
 
