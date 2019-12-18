@@ -3,11 +3,16 @@ import axios from 'axios';
 import uuid from 'uuid';
 import { debounce } from 'lodash';
 import InfiniteScroll from 'react-infinite-scroller';
-import { withRouter } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom';
+import qs from 'query-string';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import VideoList from './components/VideoList';
 import VideoListItem from './components/VideoList/VideoListItem';
+import { updateQuery } from './actions';
 import spinner from './components/images/spinner.gif';
 import './App.css';
 
@@ -17,7 +22,7 @@ class Main extends Component {
     this.state = {
       videos: [],
       selectedVideo: null,
-      query: '',
+      // query: this.props.query, this.props로 query를 받을 수 있다. connect를 함수로 prop에 맵핑했기때문이다.
       nextPageToken: null
     };
 
@@ -31,7 +36,7 @@ class Main extends Component {
       this.setState(this.defaultState)
       return;
     }
-    if (this.state.query !== query) {
+    if (this.props.query !== query) {
       this.props.history.push(`/result?search_query=${query}`);
       this.setState(this.defaultState)
     }
@@ -51,16 +56,22 @@ class Main extends Component {
 
       this.setState({
         videos: [...this.state.videos, ...data.items],
-        query,
         nextPageToken: data.nextPageToken
       });
+
+      this.props.updateQuery(query);
+
     } catch(err) {
       console.error(err);
     }
   }
 
-  async componentWillMount() {
-    this.getYoutubeData('여행');
+  componentDidMount() {
+    const { props } = this;
+    if (props.location) {
+      const { search_query } = qs.parse(props.location.search);
+      if (search_query) this.getYoutubeData(search_query);
+    }
   }
 
   render() {
@@ -69,7 +80,7 @@ class Main extends Component {
     return (
       <div className="App">
         <Header>
-          <SearchBar query={query} onSearchVideos={debounce(this.getYoutubeData, 500)}/>
+          <SearchBar onSearchVideos={debounce(this.getYoutubeData, 500)}/>
         </Header>
         <InfiniteScroll
           loadMore={() => this.getYoutubeData(query)}
@@ -94,4 +105,17 @@ class Main extends Component {
     );
   }
 }
-  export default withRouter(Main);
+
+function mapStateToProps(state) {
+  return {
+    query: state.vidoes.query
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    updateQuery
+  }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

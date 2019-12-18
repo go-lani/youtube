@@ -6,17 +6,22 @@ import {
 } from 'react-router-dom';
 import Main from './Main';
 import VideoPlayer from './components/VideoPlayer';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducer from './reducers';
 
 const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route path="/watch/:videoId" component={ VideoPlayer } />
-        <Route path="/watch" component={ VideoPlayer } />
-        <Route path="/results" component={ Main } />
-        <Route path="/" component={ Main } />
-      </Switch>
-    </Router>
+    <Provider store={createStore(reducer)}>
+      <Router>
+        <Switch>
+          <Route path="/watch/:videoId" component={ VideoPlayer } />
+          <Route path="/watch" component={ VideoPlayer } />
+          <Route path="/results" component={ Main } />
+          <Route path="/" component={ Main } />
+        </Switch>
+      </Router>
+    </Provider>
   );
 }
 

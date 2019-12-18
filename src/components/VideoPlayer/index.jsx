@@ -5,7 +5,8 @@ import './VideoPlayer.css';
 const VideoPlayer = props => {
   const { videoId } = props.match.params;
 
-  // console.log(videoId);
+  console.log(videoId);
+
   const { v } = qs.parse(props.location.search);
   console.log('props.location.search', props.location.search);
   console.log('qs.parse', qs.parse(props.location.search));
