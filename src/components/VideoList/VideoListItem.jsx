@@ -1,15 +1,18 @@
 import React from 'react';
 import uuid from 'uuid';
 import './VideoList.css';
+import { withRouter } from 'react-router-dom'
 
 const VideoListItem = props => {
+  console.log(props.videoInfo);
   const videoItems = props.videoInfo.map(video =>
     <li className="video-items" key={uuid.v4()}>
       <a
         href="/"
         onClick={e => {
           e.preventDefault();
-          props.onVideoSelect(video)
+          // props.history.push(`/watch/${selectedVideo.id.videoId}`) // REST API
+          props.history.push(`/watch?v=${video.id.videoId}`); // Query String
         }
       }>
         <figure className="items-inner">
@@ -32,4 +35,4 @@ const VideoListItem = props => {
   );
 }
 
-export default VideoListItem;
+export default withRouter(VideoListItem);

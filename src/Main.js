@@ -75,7 +75,7 @@ class Main extends Component {
   }
 
   render() {
-    const { query, selectedVideo, nextPageToken, videos } = this.state;
+    const { query, nextPageToken, videos } = this.state;
 
     return (
       <div className="App">
@@ -91,13 +91,7 @@ class Main extends Component {
             </div>
           }>
           <VideoList>
-            <VideoListItem
-              videoInfo={videos}
-              onVideoSelect={selectedVideo => {
-                // this.props.history.push(`/watch/${selectedVideo.id.videoId}`) // REST API
-                this.props.history.push(`/watch?v=${selectedVideo.id.videoId}`); // Query String
-              }}
-            />
+            <VideoListItem videoInfo={videos} />
           </VideoList>
         </InfiniteScroll>
         }
