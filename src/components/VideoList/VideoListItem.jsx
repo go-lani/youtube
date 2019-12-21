@@ -4,7 +4,6 @@ import './VideoList.css';
 import { withRouter } from 'react-router-dom'
 
 const VideoListItem = props => {
-  console.log(props.videoInfo);
   const videoItems = props.videoInfo.map(video =>
     <li className="video-items" key={uuid.v4()}>
       <a

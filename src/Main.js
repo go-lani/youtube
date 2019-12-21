@@ -29,15 +29,13 @@ class Main extends Component {
     Object.getOwnPropertyNames(Main.prototype).forEach(key => this[key] = this[key].bind(this));
   }
 
-  async getYoutubeData(query) {
+  getYoutubeData = debounce(async (query) => {
     try {
       if (!query) {
-        this.props.history.push(`/result?search_query=${query}`);
         this.setState(this.defaultState)
         return;
       }
       if (this.props.query !== query) {
-        this.props.history.push(`/result?search_query=${query}`);
         this.setState(this.defaultState)
       }
 
@@ -63,13 +61,22 @@ class Main extends Component {
     }
 
     this.props.updateQuery(query);
-  }
+  }, 1000);
 
   componentDidMount() {
     const { props } = this;
     if (props.location) {
       const { search_query } = qs.parse(props.location.search);
       if (search_query) this.getYoutubeData(search_query || '');
+    }
+  }
+
+  componentDidUpdate(prevProp, prevState) {
+    const { props } = this;
+    if (props.location) {
+      const { search_query } = qs.parse(props.location.search);
+      const { search_query: prev_search_query } = qs.parse(prevProp.location.search);
+      if (search_query !== prev_search_query) this.getYoutubeData(search_query);
     }
   }
 
