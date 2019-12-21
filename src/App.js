@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,7 +12,7 @@ import reducer from './reducers';
 
 const App = () => {
   return (
-    <Provider store={createStore(reducer)}>
+    <Provider store={createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
       <Router>
         <Switch>
           <Route path="/watch/:videoId" component={ VideoPlayer } />

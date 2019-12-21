@@ -22,7 +22,6 @@ class Main extends Component {
     this.state = {
       videos: [],
       selectedVideo: null,
-      // query: this.props.query, this.props로 query를 받을 수 있다. connect를 함수로 prop에 맵핑했기때문이다.
       nextPageToken: null
     };
 
@@ -31,27 +30,27 @@ class Main extends Component {
   }
 
   async getYoutubeData(query) {
-    if (!query) {
-      this.props.history.push(`/result?search_query=${query}`);
-      this.setState(this.defaultState)
-      return;
-    }
-    if (this.props.query !== query) {
-      this.props.history.push(`/result?search_query=${query}`);
-      this.setState(this.defaultState)
-    }
-
-    const { nextPageToken } = this.state;
-
-    const params = {
-      key: process.env.REACT_APP_YOUTUBE_API_KEY,
-      q: query,
-      part: 'snippet',
-      maxResults: 5,
-      pageToken: nextPageToken,
-    };
-
     try {
+      if (!query) {
+        this.props.history.push(`/result?search_query=${query}`);
+        this.setState(this.defaultState)
+        return;
+      }
+      if (this.props.query !== query) {
+        this.props.history.push(`/result?search_query=${query}`);
+        this.setState(this.defaultState)
+      }
+
+      const { nextPageToken } = this.state;
+
+      const params = {
+        key: process.env.REACT_APP_YOUTUBE_API_KEY,
+        q: query,
+        part: 'snippet',
+        maxResults: 5,
+        pageToken: nextPageToken,
+      };
+
       const { data } = await axios.get('https://www.googleapis.com/youtube/v3/search', { params });
 
       this.setState({
@@ -59,28 +58,32 @@ class Main extends Component {
         nextPageToken: data.nextPageToken
       });
 
-      this.props.updateQuery(query);
-
     } catch(err) {
       console.error(err);
     }
+
+    this.props.updateQuery(query);
   }
 
   componentDidMount() {
     const { props } = this;
     if (props.location) {
       const { search_query } = qs.parse(props.location.search);
-      if (search_query) this.getYoutubeData(search_query);
+      if (search_query) this.getYoutubeData(search_query || '');
     }
   }
 
   render() {
-    const { query, nextPageToken, videos } = this.state;
+    const { nextPageToken, videos } = this.state;
+    const { query, history } = this.props;
 
     return (
       <div className="App">
         <Header>
-          <SearchBar onSearchVideos={debounce(this.getYoutubeData, 500)}/>
+          {/* <SearchBar onSearchVideos={debounce(this.getYoutubeData, 1000)}/> */}
+          <SearchBar onSearchVideos={ v => {
+            history.push(`/result?search_query=${v}`);
+          }}/>
         </Header>
         <InfiniteScroll
           loadMore={() => this.getYoutubeData(query)}
@@ -94,7 +97,6 @@ class Main extends Component {
             <VideoListItem videoInfo={videos} />
           </VideoList>
         </InfiniteScroll>
-        }
       </div>
     );
   }
