@@ -24,7 +24,7 @@
 .items-inner {
   display: flex;
   align-items: flex-start;
-  font-size: 20px;
+  font-size: 2rem;
 }
 
 .thumbs {
@@ -52,12 +52,12 @@
 }
 
 .caption .title {
-  font-size: 18px;
+  font-size: 1.8rem;
   line-height: 1.2;
 }
 
 .caption .description {
   margin: 20px 0 0;
-  font-size: 14px;
+  font-size: 1.4rem;
   line-height: 1.5;
 }

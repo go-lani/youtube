@@ -1,8 +1,9 @@
-import { UPDATE_QUERY, LIKE, UNLIKE } from '../actions';
+import { UPDATE_QUERY, SELECTED_VIDEO, LIKE, UNLIKE } from '../actions';
 
 const INITIAL_STATE = {
   query: '',
-  data: {}
+  data: {},
+  selected: {}
 };
 
 export default function videos(state = INITIAL_STATE, action) {
@@ -11,6 +12,14 @@ export default function videos(state = INITIAL_STATE, action) {
       return {
         ...state,
         query: action.query
+      };
+    case SELECTED_VIDEO:
+      return {
+        ...state,
+        selected: {
+          title: action.title,
+          description: action.description
+        }
       };
     case LIKE:
       const _like = state.data[action.id];

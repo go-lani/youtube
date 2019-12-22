@@ -13,8 +13,8 @@ link, map, meta, nav, object, ol, p, pre, q, rp, rt, ruby, s, script,
 section, select, source, span, strong, style, sub, summary, sup, table,
 tbody, td,textarea, tfoot, th, thead, time, title, tr, u, ul, video {margin: 0; padding: 0; font-family: inherit; font-style: normal; font-weight: inherit; font-size: inherit; line-height: inherit; text-decoration: inherit; color: inherit; vertical-align: top; outline: none;}
 
-html		{width: 100%; height: 100%; -ms-touch-action: manipulation; touch-action: manipulation; -webkit-overflow-scrolling: touch;}
-body		{width: 100%; height: 100%; font-weight: 400; font-size: 14px; line-height: 1; color: #666666; -webkit-font-smoothing: antialiased; /* font-smoothing: antialiased; */ -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-adjust: 100%; -webkit-print-color-adjust:exact; background: #f9f9f9;}
+html		{width: 100%; height: 100%; font-weight: 400; font-size: 10px; line-height: 1; color: #666666; -ms-touch-action: manipulation; touch-action: manipulation; -webkit-overflow-scrolling: touch;}
+body		{width: 100%; height: 100%; -webkit-font-smoothing: antialiased; /* font-smoothing: antialiased; */ -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-text-size-adjust: 100%; -webkit-print-color-adjust:exact; background: #f9f9f9;}
 ul,ol,li	{list-style: none;}
 img,hr		{border: none;}
 p			{max-height: 999999px;}
@@ -25,9 +25,9 @@ th,td		{vertical-align: middle;}
 input[type=text],
 input[type=number],
 input[type=email],
-input[type=password]	{display: inline-block; width: 100%; height: 40px; padding: 10px 10px 10px 10px; border: 1px solid #cccccc; font-size: 14px; line-height: 18px; color: #666666; box-sizing: border-box; background: #ffffff;}
-select					{display: inline-block; width: 100%; height: 40px; padding: 10px 30px 10px 10px; border: 1px solid #cccccc; font-size: 14px; line-height: 18px; color: #666666; box-sizing: border-box; background: #ffffff;}
-textarea				{display: inline-block; width: 100%; height: 40px; padding: 10px 10px 10px 10px; border: 1px solid #cccccc; font-size: 14px; line-height: 18px; color: #666666; box-sizing: border-box; background: #ffffff;}
+input[type=password]	{display: inline-block; width: 100%; height: 40px; padding: 10px 10px 10px 10px; border: 1px solid #cccccc; font-size: 1.4rem; line-height: 18px; color: #666666; box-sizing: border-box; background: #ffffff;}
+select					{display: inline-block; width: 100%; height: 40px; padding: 10px 30px 10px 10px; border: 1px solid #cccccc; font-size: 1.4rem; line-height: 18px; color: #666666; box-sizing: border-box; background: #ffffff;}
+textarea				{display: inline-block; width: 100%; height: 40px; padding: 10px 10px 10px 10px; border: 1px solid #cccccc; font-size: 1.4rem; line-height: 18px; color: #666666; box-sizing: border-box; background: #ffffff;}
 select::-ms-expand		{display: none;}
 
 ::-webkit-input-placeholder {color: #777777;}
@@ -52,9 +52,6 @@ a:hover		{text-decoration: none; color: inherit;}
 a:visited	{text-decoration: none; color: inherit;}
 a:active	{text-decoration: none; color: inherit;}
 a:focus		{text-decoration: none; color: inherit;}
-
-
-.hide	{visibility: hidden; overflow: hidden; position: absolute; left: -9999em; top: -9999em; width: 0px; height: 0px; border: none; background: none; font-size: 0px; line-height: 0px; opacity: 0;}
 
 .fl_l {float: left !important;}
 .fl_c {display: inline-block; float: none !important;}
@@ -119,6 +116,17 @@ a:focus		{text-decoration: none; color: inherit;}
 .mt95  {margin-top: 95px !important;}	.mr95  {margin-right: 95px !important;}  	.mb95  {margin-bottom: 95px !important;}  	.ml95  {margin-left: 95px !important;}
 .mt100 {margin-top: 100px !important;}	.mr100 {margin-right: 100px !important;}	.mb100 {margin-bottom: 100px !important;}	.ml100 {margin-left: 100px !important;}
 
+/* 숨김 텍스트 */
+.a11y-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  background-color: transparent;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+}
 
 .loader {
   padding: 50px 0;

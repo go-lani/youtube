@@ -7,10 +7,11 @@ import Header from '../Header'
 import SearchBar from '../SearchBar'
 
 import { like, unLike } from '../../actions';
-import likeButton from './images/like.png'
-import unLikeButton from './images/unlike.png'
+import likeButton from './images/like_2.png'
+import unLikeButton from './images/unlike_2.png'
 
 const VideoPlayer = props => {
+  console.log(props.selected);
   const { v : _id } = qs.parse(props.location.search);
   if (!_id) return null;
 
@@ -28,28 +29,25 @@ const VideoPlayer = props => {
         <figure className="video-area">
           <div className="video-box">
             <iframe src={url} title={url}></iframe>
-            <div className="mt50">
+          </div>
+          <figcaption className="video-info">
+            <div className="title">{props.selected.title}</div>
+            <div className="description">{props.selected.description}</div>
+            <div className="utils-box">
               <div>
                 <button type="button" onClick={() => props.like(_id)}>
                   <img src={likeButton} alt="좋아요"/>
-                  좋아요
                 </button>
-                { props.data[_id] && props.data[_id].like ? props.data[_id].like : 0 }
+                <span className="count">{ props.data[_id] && props.data[_id].like ? props.data[_id].like : 0 }</span>
               </div>
               <div>
                 <button type="button" onClick={() => props.unLike(_id)}>
                   <img src={unLikeButton} alt="싫어요"/>
-                  싫어요
                 </button>
-                { props.data[_id] && props.data[_id].unlike ? props.data[_id].unlike : 0 }
+                <span className="count">{ props.data[_id] && props.data[_id].unlike ? props.data[_id].unlike : 0 }</span>
               </div>
             </div>
-          </div>
-          {/* <figcaption className="video-info">
-            <div className="channel-title">{videoData.channel}</div>
-            <div className="title">{videoData.title}</div>
-            <div className="description">{videoData.description}</div>
-          </figcaption> */}
+          </figcaption>
         </figure>
       </section>
     </>
@@ -58,7 +56,8 @@ const VideoPlayer = props => {
 
 function mapStateToProps (state) {
   return {
-    data: state.vidoes.data
+    data: state.vidoes.data,
+    selected: state.vidoes.selected
   }
 }
 
