@@ -5,11 +5,7 @@ const INITIAL_STATE = {
   data: {}
 };
 
-// 객체일 경우 - 요소를 덮어써야되는 경우
-// 배열일 경우 - 요소가 추가되어야되는 경우
-
 export default function videos(state = INITIAL_STATE, action) {
-  const video = state.data[action.id];
   switch (action.type) {
     case UPDATE_QUERY:
       return {
@@ -17,27 +13,56 @@ export default function videos(state = INITIAL_STATE, action) {
         query: action.query
       };
     case LIKE:
+      const _like = state.data[action.id];
       return {
         ...state,
         data: {
           ...state.data,
           [action.id]: {
-            ...video,
-            like: video ? video.like + 1 : 1
+            ..._like,
+            like: _like ? _like.like + 1 : 1,
+            unlike: _like ? _like.unlike : 0
           }
         }
       };
     case UNLIKE:
+      const _unlike = state.data[action.id];
       return {
         ...state,
         data: {
           ...state.data,
           [action.id]: {
-            ...video,
-            unlike: video ? video.unlike + 1 : 1
+            ..._unlike,
+            like: _unlike ? _unlike.like : 0,
+            unlike: _unlike ? _unlike.unlike + 1 : 1
           }
         }
       };
+    // why?
+    // case LIKE:
+    //   const _like = state.data[action.id];
+    //   return {
+    //     ...state,
+    //     data: {
+    //       ...state.data,
+    //       [action.id]: {
+    //         ..._like,
+    //         like: _like ? _like.like + 1 : 1
+    //       }
+    //     }
+    //   };
+    // case UNLIKE:
+    //   const _unlike = state.data[action.id];
+    //   return {
+    //     ...state,
+    //     data: {
+    //       ...state.data,
+    //       [action.id]: {
+    //         ..._unlike,
+    //         unlike: _unlike ? _unlike.unlike + 1 : 1
+    //       }
+    //     }
+    //   };
     default:
       return state;
   }

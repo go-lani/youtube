@@ -8,11 +8,10 @@ import likeButton from './images/like.png'
 import unLikeButton from './images/unlike.png'
 
 const VideoPlayer = props => {
-  const { v } = qs.parse(props.location.search);
+  const { v : _id } = qs.parse(props.location.search);
+  if (!_id) return null;
 
-  if (!v) return null;
-
-  const url = `https://www.youtube.com/embed/${v}`
+  const url = `https://www.youtube.com/embed/${_id}`
   return (
     <section className="video-section">
       <figure className="video-area">
@@ -20,18 +19,18 @@ const VideoPlayer = props => {
           <iframe src={url} title={url}></iframe>
           <div className="mt50">
             <div>
-              <button type="button" onClick={() => props.like(v)}>
+              <button type="button" onClick={() => props.like(_id)}>
                 <img src={likeButton} alt="좋아요"/>
                 좋아요
               </button>
-              { props.data[v] ? props.data[v].like : 0 }
+              { props.data[_id] && props.data[_id].like ? props.data[_id].like : 0 }
             </div>
             <div>
-              <button type="button" onClick={() => props.unLike(v)}>
+              <button type="button" onClick={() => props.unLike(_id)}>
                 <img src={unLikeButton} alt="싫어요"/>
                 싫어요
               </button>
-              { props.data[v] ? props.data[v].unlike : 0 }
+              { props.data[_id] && props.data[_id].unlike ? props.data[_id].unlike : 0 }
             </div>
           </div>
         </div>
