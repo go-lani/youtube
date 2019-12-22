@@ -29,13 +29,9 @@ class Main extends Component {
     Object.getOwnPropertyNames(Main.prototype).forEach(key => (this[key] = this[key].bind(this)));
   }
 
-  getYoutubeData = debounce(async query => {
+  _getYoutubeData = debounce(async (query, isChanged) => {
     try {
-      if (!query) {
-        this.setState(this.defaultState);
-        return;
-      }
-      if (this.props.query !== query) {
+      if (isChanged) {
         this.setState(this.defaultState);
       }
 
@@ -58,9 +54,18 @@ class Main extends Component {
     } catch (err) {
       console.error(err);
     }
-
-    this.props.updateQuery(query);
   }, 1000);
+
+  getYoutubeData(query) {
+    let isChanged = false;
+    console.log(this.props.query, query);
+    if (this.props.query !== query) {
+      isChanged = true;
+      this.props.updateQuery(query);
+    }
+
+    this._getYoutubeData(query, isChanged);
+  }
 
   componentDidMount() {
     const { props } = this;
