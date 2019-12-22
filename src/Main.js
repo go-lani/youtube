@@ -26,17 +26,17 @@ class Main extends Component {
     };
 
     this.defaultState = this.state;
-    Object.getOwnPropertyNames(Main.prototype).forEach(key => this[key] = this[key].bind(this));
+    Object.getOwnPropertyNames(Main.prototype).forEach(key => (this[key] = this[key].bind(this)));
   }
 
-  getYoutubeData = debounce(async (query) => {
+  getYoutubeData = debounce(async query => {
     try {
       if (!query) {
-        this.setState(this.defaultState)
+        this.setState(this.defaultState);
         return;
       }
       if (this.props.query !== query) {
-        this.setState(this.defaultState)
+        this.setState(this.defaultState);
       }
 
       const { nextPageToken } = this.state;
@@ -46,7 +46,7 @@ class Main extends Component {
         q: query,
         part: 'snippet',
         maxResults: 5,
-        pageToken: nextPageToken,
+        pageToken: nextPageToken
       };
 
       const { data } = await axios.get('https://www.googleapis.com/youtube/v3/search', { params });
@@ -55,8 +55,7 @@ class Main extends Component {
         videos: [...this.state.videos, ...data.items],
         nextPageToken: data.nextPageToken
       });
-
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
 
@@ -87,10 +86,11 @@ class Main extends Component {
     return (
       <div className="App">
         <Header>
-          {/* <SearchBar onSearchVideos={debounce(this.getYoutubeData, 1000)}/> */}
-          <SearchBar onSearchVideos={ v => {
-            history.push(`/result?search_query=${v}`);
-          }}/>
+          <SearchBar
+            onSearchVideos={v => {
+              history.push(`/result?search_query=${v}`);
+            }}
+          />
         </Header>
         <InfiniteScroll
           loadMore={() => this.getYoutubeData(query)}
@@ -99,7 +99,8 @@ class Main extends Component {
             <div key={uuid.v4()} className="loader">
               <img src={spinner} alt="loading" />
             </div>
-          }>
+          }
+        >
           <VideoList>
             <VideoListItem videoInfo={videos} />
           </VideoList>
@@ -112,13 +113,16 @@ class Main extends Component {
 function mapStateToProps(state) {
   return {
     query: state.vidoes.query
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    updateQuery
-  }, dispatch)
+  return bindActionCreators(
+    {
+      updateQuery
+    },
+    dispatch
+  );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -20,11 +20,8 @@ const SearchBar = ({query , onSearchVideos, updateQuery}) => {
       <input
         ref={ref => (input = ref)} // ref는 해당하는 컴포넌트를 DOM 객체 처럼 참조하는 코드, input에 매개변수 ref(해당 가상DOM의 참조 값이)를 담아준다.
         type="search"
-        // value={query} // props.query가 안바뀌면 props의 query만 노출되어있다.
         defaultValue={query || ''} // undefined를 방지, 초기값을 설정 사용자가 변경하는 값에 반응이오는데
-        onChange={e => {
-          onSearchVideos(e.target.value);
-        }}
+        onChange={e => onSearchVideos(e.target.value)}
         onKeyPress={handleEnter(onSearchVideos)}
         className="search-ipt"
         placeholder="검색어를 입력해주세요"
