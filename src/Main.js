@@ -22,7 +22,7 @@ class Main extends Component {
     this.state = {
       videos: [],
       selectedVideo: null,
-      nextPageToken: null
+      nextPageToken: null,
     };
 
     this.defaultState = this.state;
@@ -42,14 +42,14 @@ class Main extends Component {
         q: query,
         part: 'snippet',
         maxResults: 5,
-        pageToken: nextPageToken
+        pageToken: nextPageToken,
       };
 
       const { data } = await axios.get('https://www.googleapis.com/youtube/v3/search', { params });
 
       this.setState({
         videos: [...this.state.videos, ...data.items],
-        nextPageToken: data.nextPageToken
+        nextPageToken: data.nextPageToken,
       });
     } catch (err) {
       console.error(err);
@@ -58,7 +58,6 @@ class Main extends Component {
 
   getYoutubeData(query) {
     let isChanged = false;
-    console.log(this.props.query, query);
     if (this.props.query !== query) {
       isChanged = true;
       this.props.updateQuery(query);
@@ -75,12 +74,12 @@ class Main extends Component {
     }
   }
 
-  componentDidUpdate(prevProp, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const { props } = this;
     if (props.location) {
       const { search_query } = qs.parse(props.location.search);
-      const { search_query: prev_search_query } = qs.parse(prevProp.location.search);
-      if (search_query !== prev_search_query) this.getYoutubeData(search_query);
+      const { search_query: prev_search_query } = qs.parse(prevProps.location.search);
+      if (search_query !== prev_search_query) this.getYoutubeData(search_query || '');
     }
   }
 
@@ -92,8 +91,8 @@ class Main extends Component {
       <div className="App">
         <Header>
           <SearchBar
-            onSearchVideos={v => {
-              history.push(`/result?search_query=${v}`);
+            onSearchVideos={e => {
+              history.push(`/result?search_query=${e.target.value}`);
             }}
           />
         </Header>
@@ -117,16 +116,16 @@ class Main extends Component {
 
 function mapStateToProps(state) {
   return {
-    query: state.vidoes.query
+    query: state.vidoes.query,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      updateQuery
+      updateQuery,
     },
-    dispatch
+    dispatch,
   );
 }
 

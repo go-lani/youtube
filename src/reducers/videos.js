@@ -56,7 +56,7 @@ export default function videos(state = INITIAL_STATE, action) {
     //       ...state.data,
     //       [action.id]: {
     //         ..._like,
-    //         like: _like ? _like.like + 1 : 1
+    //         like: _like && _like.like ? _like.like + 1 : 1
     //       }
     //     }
     //   };
@@ -68,7 +68,7 @@ export default function videos(state = INITIAL_STATE, action) {
     //       ...state.data,
     //       [action.id]: {
     //         ..._unlike,
-    //         unlike: _unlike ? _unlike.unlike + 1 : 1
+    //         unlike: _unlike && _unlike.unlike ? _unlike.unlike + 1 : 1
     //       }
     //     }
     //   };

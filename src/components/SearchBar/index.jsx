@@ -4,7 +4,7 @@ import { updateQuery } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-const SearchBar = ({query , onSearchVideos, updateQuery}) => {
+const SearchBar = ({ query , onSearchVideos }) => {
   const handleEnter = search => e => {
     // search = props.onSearchVideos search에 함수를 받는다.
     // props.onSearchVideos(e)와 동일하게 동작
@@ -20,8 +20,8 @@ const SearchBar = ({query , onSearchVideos, updateQuery}) => {
       <input
         ref={ref => (input = ref)} // ref는 해당하는 컴포넌트를 DOM 객체 처럼 참조하는 코드, input에 매개변수 ref(해당 가상DOM의 참조 값이)를 담아준다.
         type="search"
-        defaultValue={query || ''} // undefined를 방지, 초기값을 설정 사용자가 변경하는 값에 반응이오는데
-        onChange={e => onSearchVideos(e.target.value)}
+        Value={query || ''}
+        onChange={onSearchVideos}
         onKeyPress={handleEnter(onSearchVideos)}
         className="search-ipt"
         placeholder="검색어를 입력해주세요"
