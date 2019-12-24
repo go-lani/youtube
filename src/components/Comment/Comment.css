@@ -1,0 +1,26 @@
+.comment-area {
+  margin: 30px 0 0;
+}
+
+.register-area {
+  position: relative;
+  padding: 0 90px 0 0;
+}
+
+.register-area .input-field {
+  height: 40px;
+  resize: none;
+  border-radius: 3px;
+}
+
+.register-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 40px;
+  border-radius: 3px;
+  font-size: 1.4rem;
+  color: #fff;
+  background: #d93030;
+}

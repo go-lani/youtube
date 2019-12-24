@@ -5,10 +5,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from '../Header';
 import SearchBar from '../SearchBar';
+import Comment from '../Comment';
 
-import { like, unLike } from '../../actions';
+import { like, disLike } from '../../actions';
 import likeButton from './images/like_2.png';
-import unLikeButton from './images/unlike_2.png';
+import disLikeButton from './images/unlike_2.png';
 import { withRouter } from 'react-router-dom';
 
 const VideoPlayer = props => {
@@ -43,16 +44,17 @@ const VideoPlayer = props => {
                 </span>
               </div>
               <div>
-                <button type="button" onClick={() => props.unLike(_id)}>
-                  <img src={unLikeButton} alt="싫어요" />
+                <button type="button" onClick={() => props.disLike(_id)}>
+                  <img src={disLikeButton} alt="싫어요" />
                 </button>
                 <span className="count">
-                  {props.data[_id] && props.data[_id].unlike ? props.data[_id].unlike : 0}
+                  {props.data[_id] && props.data[_id].dislike ? props.data[_id].dislike : 0}
                 </span>
               </div>
             </div>
           </figcaption>
         </figure>
+        <Comment videoId={_id} />
       </section>
     </>
   );
@@ -69,7 +71,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       like,
-      unLike,
+      disLike,
     },
     dispatch,
   );

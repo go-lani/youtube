@@ -1,77 +1,82 @@
-import { UPDATE_QUERY, SELECTED_VIDEO, LIKE, UNLIKE } from '../actions';
+import {
+  UPDATE_QUERY,
+  SELECTED_VIDEO,
+  LIKE,
+  DISLIKE,
+  ADD_COMMENT,
+  REMOVE_COMMENT,
+} from '../actions';
 
 const INITIAL_STATE = {
   query: '',
   data: {},
-  selected: {}
+  selected: {},
 };
 
 export default function videos(state = INITIAL_STATE, action) {
+  const video = state.data[action.id];
   switch (action.type) {
     case UPDATE_QUERY:
       return {
         ...state,
-        query: action.query
+        query: action.query,
       };
     case SELECTED_VIDEO:
       return {
         ...state,
         selected: {
           title: action.title,
-          description: action.description
-        }
+          description: action.description,
+        },
       };
     case LIKE:
-      const _like = state.data[action.id];
       return {
         ...state,
         data: {
           ...state.data,
           [action.id]: {
-            ..._like,
-            like: _like ? _like.like + 1 : 1,
-            unlike: _like ? _like.unlike : 0
-          }
-        }
+            ...video,
+            like: video && video.like ? video.like + 1 : 1,
+          },
+        },
       };
-    case UNLIKE:
-      const _unlike = state.data[action.id];
+    case DISLIKE:
       return {
         ...state,
         data: {
           ...state.data,
           [action.id]: {
-            ..._unlike,
-            like: _unlike ? _unlike.like : 0,
-            unlike: _unlike ? _unlike.unlike + 1 : 1
-          }
-        }
+            ...video,
+            dislike: video && video.dislike ? video.dislike + 1 : 1,
+          },
+        },
       };
-    // why?
-    // case LIKE:
-    //   const _like = state.data[action.id];
-    //   return {
-    //     ...state,
-    //     data: {
-    //       ...state.data,
-    //       [action.id]: {
-    //         ..._like,
-    //         like: _like && _like.like ? _like.like + 1 : 1
-    //       }
-    //     }
-    //   };
-    // case UNLIKE:
-    //   const _unlike = state.data[action.id];
-    //   return {
-    //     ...state,
-    //     data: {
-    //       ...state.data,
-    //       [action.id]: {
-    //         ..._unlike,
-    //         unlike: _unlike && _unlike.unlike ? _unlike.unlike + 1 : 1
-    //       }
-    //     }
-    //   };
+    case ADD_COMMENT:
+      let maxId = video && video.comment ? Math.max(...video.comment.map(item => item.id)) + 1 : 0;
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          [action.id]: {
+            ...video,
+            comment:
+              video && video.comment
+                ? [{ id: maxId, comment: action.value }, ...video.comment]
+                : [{ id: maxId, comment: action.value }],
+          },
+        },
+      };
+    case REMOVE_COMMENT:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          [action.id]: {
+            ...video,
+            comment: video.comment.filter(comment => comment.id !== action.commentId),
+          },
+        },
+      };
     default:
       return state;
   }
