@@ -16,18 +16,41 @@
   border-bottom: 1px dotted #ccc;
 }
 
-.video-info .channel-title {
-  font-size: 1.6rem;
+.channel-title {
+  font-size: 1.8rem;
+}
+
+.view-count {
+  font-size: 2rem;
+  margin: 10px 0 0;
 }
 
 .video-info .title {
   font-size: 1.8rem;
+  margin: 20px 0 0;
 }
 
 .video-info .description {
-  margin: 20px 0 0;
-  font-size: 1.4rem;
+  margin: 15px 0 0;
+  font-size: 1.2rem;
   line-height: 1.5;
+}
+
+.video-info .tag-list {
+  overflow: hidden;
+  margin: 20px 0 -10px;
+}
+
+.video-info .tag-list li {
+  float: left;
+  margin: 0 10px 10px 0;
+  padding: 7px 10px;
+  font-size: 1.4rem;
+  background: #d7d9d9;
+}
+
+.video-info .tag-list li:first-child {
+  margin-left: 0;
 }
 
 .video-info .utils-box {

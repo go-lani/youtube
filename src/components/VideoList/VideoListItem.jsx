@@ -1,11 +1,8 @@
 import React from 'react';
 import uuid from 'uuid';
 import { withRouter } from 'react-router-dom'
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
 import './VideoList.css';
-import { selectedVideo } from '../../actions';
 
 const VideoListItem = props => {
   const videoItems = props.videoInfo.map(video =>
@@ -16,7 +13,6 @@ const VideoListItem = props => {
           e.preventDefault();
           // props.history.push(`/watch/${selectedVideo.id.videoId}`) // REST API
           props.history.push(`/watch?v=${video.id.videoId}`); // Query String
-          props.selectedVideo(video.snippet.title, video.snippet.description)
         }
       }>
         <figure className="items-inner">
@@ -39,16 +35,4 @@ const VideoListItem = props => {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    selected: state.vidoes.selected
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    selectedVideo
-  }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(VideoListItem));
+export default withRouter(VideoListItem);

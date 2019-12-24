@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import qs from 'query-string';
 import './VideoPlayer.css';
 import { bindActionCreators } from 'redux';
@@ -12,8 +13,39 @@ import likeButton from './images/like_2.png';
 import disLikeButton from './images/unlike_2.png';
 import { withRouter } from 'react-router-dom';
 
+
 const VideoPlayer = props => {
+  const [ info, setInfo ] = useState({ title: '', description: '', channelTitle: '', tags: [], viewCount: 0 });
+
   const { v: _id } = qs.parse(props.location.search);
+
+  const getDate = async videoid => {
+    const params = {
+      key: process.env.REACT_APP_YOUTUBE_API_KEY,
+      part: 'snippet, statistics',
+      id: videoid,
+    };
+
+    const { data } = await axios.get(
+      'https://www.googleapis.com/youtube/v3/videos',
+      {
+        params,
+      },
+    );
+
+    setInfo({
+      title: data.items[0].snippet.title,
+      description: data.items[0].snippet.description,
+      channelTitle: data.items[0].snippet.channelTitle,
+      tags: data.items[0].snippet.tags,
+      viewCount: data.items[0].statistics.viewCount
+    });
+  }
+
+  useEffect(() => {
+    getDate(_id);
+  }, []);
+
   if (!_id) return null;
 
   const url = `https://www.youtube.com/embed/${_id}`;
@@ -32,8 +64,13 @@ const VideoPlayer = props => {
             <iframe src={url} title={url}></iframe>
           </div>
           <figcaption className="video-info">
-            <div className="title">{props.selected.title}</div>
-            <div className="description">{props.selected.description}</div>
+            <div className="channel-title">{info.channelTitle}</div>
+            <div className="view-count">조회수 {info.viewCount}회</div>
+            <div className="title">{info.title}</div>
+            <div className="description">{info.description}</div>
+            <ul className="tag-list">
+              {info.tags && info.tags.filter((tag, index) => index <= 5).map(tag => <li>#{tag}</li>)}
+            </ul>
             <div className="utils-box">
               <div>
                 <button type="button" onClick={() => props.like(_id)}>
@@ -62,8 +99,7 @@ const VideoPlayer = props => {
 
 function mapStateToProps(state) {
   return {
-    data: state.vidoes.data,
-    selected: state.vidoes.selected,
+    data: state.vidoes.data
   };
 }
 

@@ -1,11 +1,4 @@
-import {
-  UPDATE_QUERY,
-  SELECTED_VIDEO,
-  LIKE,
-  DISLIKE,
-  ADD_COMMENT,
-  REMOVE_COMMENT,
-} from '../actions';
+import { UPDATE_QUERY, LIKE, DISLIKE, ADD_COMMENT, REMOVE_COMMENT } from '../actions';
 
 const INITIAL_STATE = {
   query: '',
@@ -20,14 +13,6 @@ export default function videos(state = INITIAL_STATE, action) {
       return {
         ...state,
         query: action.query,
-      };
-    case SELECTED_VIDEO:
-      return {
-        ...state,
-        selected: {
-          title: action.title,
-          description: action.description,
-        },
       };
     case LIKE:
       return {

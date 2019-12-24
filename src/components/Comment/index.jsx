@@ -21,11 +21,11 @@ const Comment = props => {
           등록
         </button>
       </div>
-      <ul class="comment-list">
+      <ul className="comment-list">
         {
           props.data[props.videoId]
           && props.data[props.videoId].comment
-          && props.data[props.videoId].comment.map(item => <li key={uuid.v4()}><div className="comment-inner">{item.comment.split('\n').map(line => {return (<p>{line}</p>)})}<button type="button" className="delete-btn" onClick={() => props.removeComment(props.videoId, item.id)}><img src={deleteImg} alt="삭제하기" /></button></div></li>)
+          && props.data[props.videoId].comment.map(item => <li key={uuid.v4()}><div className="comment-inner">{item.comment.split('\n').map(line => {return (<p key={uuid.v4()}>{line}</p>)})}<button type="button" className="delete-btn" onClick={() => props.removeComment(props.videoId, item.id)}><img src={deleteImg} alt="삭제하기" /></button></div></li>)
         }
       </ul>
     </div>
