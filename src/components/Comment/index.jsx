@@ -3,6 +3,7 @@ import uuid from 'uuid';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { addComment, removeComment } from '../../actions';
+import deleteImg from './images/delete-comment.png';
 import './Comment.css';
 
 const Comment = props => {
@@ -20,11 +21,11 @@ const Comment = props => {
           등록
         </button>
       </div>
-      <ul>
+      <ul class="comment-list">
         {
           props.data[props.videoId]
           && props.data[props.videoId].comment
-          && props.data[props.videoId].comment.map(item => <li key={uuid.v4()}>{item.comment.split('\n').map(line => {return (<p>{line}</p>)})}<button type="button" className="delete-btn" onClick={() => props.removeComment(props.videoId, item.id)}>삭제</button></li>)
+          && props.data[props.videoId].comment.map(item => <li key={uuid.v4()}><div className="comment-inner">{item.comment.split('\n').map(line => {return (<p>{line}</p>)})}<button type="button" className="delete-btn" onClick={() => props.removeComment(props.videoId, item.id)}><img src={deleteImg} alt="삭제하기" /></button></div></li>)
         }
       </ul>
     </div>

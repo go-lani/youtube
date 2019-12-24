@@ -1,21 +1,17 @@
-.comment-area {
-  margin: 30px 0 0;
-}
-
 .register-area {
   position: relative;
-  padding: 0 90px 0 0;
+  padding: 30px 90px 30px 0;
 }
 
 .register-area .input-field {
   height: 40px;
-  resize: none;
   border-radius: 3px;
+  resize: none;
 }
 
 .register-btn {
   position: absolute;
-  top: 0;
+  top: 30px;
   right: 0;
   width: 80px;
   height: 40px;
@@ -23,4 +19,42 @@
   font-size: 1.4rem;
   color: #fff;
   background: #d93030;
+}
+
+.comment-list {
+  padding: 20px 0 0;
+  border-top: 1px dotted #ccc;
+}
+
+.comment-list li {
+  margin: 20px 0 0;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: #222;
+}
+
+.comment-list li:first-child {
+  margin: 0;
+}
+
+.comment-list li .comment-inner {
+  display: inline-block;
+  position: relative;
+  padding: 10px 35px 10px 15px;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.comment-list li .delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 15px;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.comment-list li .delete-btn img {
+  width: 100%;
+  height: auto;
 }
