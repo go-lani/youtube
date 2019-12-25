@@ -39,9 +39,10 @@
 .thumbs img {
   position: absolute;
   top: 50%;
-  left: 0;
-  width: 100%;
-  transform: translateY(-50%);
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
 }
 
 .caption {
@@ -60,4 +61,24 @@
   margin: 20px 0 0;
   font-size: 1.4rem;
   line-height: 1.5;
+}
+
+/* 모바일 */
+@media all and (max-width: 768px) {
+  .video-items {
+    margin: 25px 0 0;
+  }
+
+  .items-inner {
+    flex-direction: column;
+  }
+
+  .thumbs {
+    width: 100%;
+    height: 330px;
+  }
+
+  .caption {
+    padding: 5%;
+  }
 }

@@ -1,5 +1,5 @@
 #header {
-  padding: 0 30px;
+  padding: 30px;
   background: #2d2e33;
 }
 
@@ -25,4 +25,17 @@
 .logo img {
   max-width: 100%;
   width: 100%;
+}
+
+/* 모바일 */
+@media all and (max-width: 768px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: unset;
+    height: 130px;
+  }
+
+  .logo {
+    width: 225px;
+  }
 }
