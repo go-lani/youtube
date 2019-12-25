@@ -35,3 +35,21 @@
   width: 24px;
   height: 42px;
 }
+
+/* 모바일 */
+@media all and (max-width: 768px) {
+  .search-area {
+    width: 100%;
+    padding: 0 52px 0 0;
+  }
+
+  .search-area .search-ipt {
+    height: 50px;
+    font-size: 1.6rem;
+  }
+
+  .search-icon {
+    width: 31px;
+    height: 48px;
+  }
+}
