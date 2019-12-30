@@ -4,8 +4,6 @@ import qs from 'query-string';
 import './VideoPlayer.css';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Header from '../Header';
-import SearchBar from '../SearchBar';
 import Comment from '../Comment';
 
 import { like, disLike } from '../../actions';
@@ -44,20 +42,13 @@ const VideoPlayer = props => {
 
   useEffect(() => {
     getDate(_id);
-  }, []);
+  }, [_id]);
 
   if (!_id) return null;
 
   const url = `https://www.youtube.com/embed/${_id}`;
   return (
     <>
-      <Header>
-        <SearchBar
-          onSearchVideos={e => {
-            props.history.push(`/result?search_query=${e.target.value}`);
-          }}
-        />
-      </Header>
       <section className="video-section">
         <figure className="video-area">
           <div className="video-box">

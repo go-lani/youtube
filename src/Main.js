@@ -3,13 +3,10 @@ import axios from 'axios';
 import uuid from 'uuid';
 import { debounce } from 'lodash';
 import InfiniteScroll from 'react-infinite-scroller';
-// import { withRouter } from 'react-router-dom';
 import qs from 'query-string';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Header from './components/Header';
-import SearchBar from './components/SearchBar';
 import VideoList from './components/VideoList';
 import VideoListItem from './components/VideoList/VideoListItem';
 import { updateQuery } from './actions';
@@ -85,17 +82,10 @@ class Main extends Component {
 
   render() {
     const { nextPageToken, videos } = this.state;
-    const { query, history } = this.props;
+    const { query } = this.props;
 
     return (
       <div className="App">
-        <Header>
-          <SearchBar
-            onSearchVideos={e => {
-              history.push(`/result?search_query=${e.target.value}`);
-            }}
-          />
-        </Header>
         <InfiniteScroll
           loadMore={() => this.getYoutubeData(query)}
           hasMore={!!nextPageToken}

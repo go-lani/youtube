@@ -3,16 +3,18 @@ import './SearchBar.css';
 import { updateQuery } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router-dom';
 
-const SearchBar = ({ query , onSearchVideos }) => {
-  const handleEnter = search => e => {
-    // search = props.onSearchVideos search에 함수를 받는다.
-    // props.onSearchVideos(e)와 동일하게 동작
-    // e를 받는 props.onSearchVideos 함수가 되어 리턴된다.
-    if (e.key === 'Enter' && query !== e.target.value) {
-      search(e.target.value);
-    }
-  };
+const SearchBar = ({ query , onSearchVideos, history }) => {
+  // const handleEnter = search => e => {
+  //   // search = props.onSearchVideos search에 함수를 받는다.
+  //   // props.onSearchVideos(e)와 동일하게 동작
+  //   // e를 받는 props.onSearchVideos 함수가 되어 리턴된다.
+  //   if (e.key === 'Enter' && query !== e.target.value) {
+  //     search(e.target.value);
+  //     history.push(`/result?search_query=${e.target.value}`);
+  //   }
+  // };
 
   let input; // 인풋 value를 가져오기 위해 변수를 선언
   return (
@@ -21,8 +23,8 @@ const SearchBar = ({ query , onSearchVideos }) => {
         ref={ref => (input = ref)} // ref는 해당하는 컴포넌트를 DOM 객체 처럼 참조하는 코드, input에 매개변수 ref(해당 가상DOM의 참조 값이)를 담아준다.
         type="search"
         defaultValue={query || ''}
-        onChange={onSearchVideos}
-        onKeyPress={handleEnter(onSearchVideos)}
+        onChange={e => history.push(`/result?search_query=${e.target.value}`)}
+        onKeyPress={e => history.push(`/result?search_query=${e.target.value}`)}
         className="search-ipt"
         placeholder="검색어를 입력해주세요"
       />
@@ -53,4 +55,4 @@ function mapDispatchToProps(dispatch) {
   }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchBar));
