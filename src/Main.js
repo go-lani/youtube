@@ -67,7 +67,8 @@ class Main extends Component {
     const { props } = this;
     if (props.location) {
       const { search_query } = qs.parse(props.location.search);
-      if (search_query) this.getYoutubeData(search_query || '');
+      if (search_query) this.getYoutubeData(search_query || '여행');
+      else this.getYoutubeData('여행');
     }
   }
 
