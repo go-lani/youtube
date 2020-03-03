@@ -4,16 +4,21 @@ import qs from 'query-string';
 import './VideoPlayer.css';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import uuid from 'uuid';
 import Comment from '../Comment';
-
 import { like, disLike } from '../../actions';
 import likeButton from './images/like_2.png';
 import disLikeButton from './images/unlike_2.png';
 import { withRouter } from 'react-router-dom';
 
-
 const VideoPlayer = props => {
-  const [ info, setInfo ] = useState({ title: '', description: '', channelTitle: '', tags: [], viewCount: 0 });
+  const [info, setInfo] = useState({
+    title: '',
+    description: '',
+    channelTitle: '',
+    tags: [],
+    viewCount: 0,
+  });
 
   const { v: _id } = qs.parse(props.location.search);
 
@@ -36,9 +41,9 @@ const VideoPlayer = props => {
       description: data.items[0].snippet.description,
       channelTitle: data.items[0].snippet.channelTitle,
       tags: data.items[0].snippet.tags,
-      viewCount: data.items[0].statistics.viewCount
+      viewCount: data.items[0].statistics.viewCount,
     });
-  }
+  };
 
   useEffect(() => {
     getDate(_id);
@@ -60,7 +65,10 @@ const VideoPlayer = props => {
             <div className="title">{info.title}</div>
             <div className="description">{info.description}</div>
             <ul className="tag-list">
-              {info.tags && info.tags.filter((tag, index) => index <= 5).map(tag => <li>#{tag}</li>)}
+              {info.tags &&
+                info.tags
+                  .filter((tag, index) => index <= 5)
+                  .map(tag => <li key={uuid.v4()}>#{tag}</li>)}
             </ul>
             <div className="utils-box">
               <div>
@@ -68,7 +76,9 @@ const VideoPlayer = props => {
                   <img src={likeButton} alt="좋아요" />
                 </button>
                 <span className="count">
-                  {props.data[_id] && props.data[_id].like ? props.data[_id].like : 0}
+                  {props.data[_id] && props.data[_id].like
+                    ? props.data[_id].like
+                    : 0}
                 </span>
               </div>
               <div>
@@ -76,7 +86,9 @@ const VideoPlayer = props => {
                   <img src={disLikeButton} alt="싫어요" />
                 </button>
                 <span className="count">
-                  {props.data[_id] && props.data[_id].dislike ? props.data[_id].dislike : 0}
+                  {props.data[_id] && props.data[_id].dislike
+                    ? props.data[_id].dislike
+                    : 0}
                 </span>
               </div>
             </div>
@@ -90,7 +102,7 @@ const VideoPlayer = props => {
 
 function mapStateToProps(state) {
   return {
-    data: state.vidoes.data
+    data: state.vidoes.data,
   };
 }
 
@@ -104,4 +116,6 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(VideoPlayer));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(VideoPlayer),
+);

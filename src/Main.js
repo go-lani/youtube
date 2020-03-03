@@ -23,7 +23,9 @@ class Main extends Component {
     };
 
     this.defaultState = this.state;
-    Object.getOwnPropertyNames(Main.prototype).forEach(key => (this[key] = this[key].bind(this)));
+    Object.getOwnPropertyNames(Main.prototype).forEach(
+      key => (this[key] = this[key].bind(this)),
+    );
   }
 
   _getYoutubeData = debounce(async (query, isChanged) => {
@@ -42,7 +44,12 @@ class Main extends Component {
         pageToken: nextPageToken,
       };
 
-      const { data } = await axios.get('https://www.googleapis.com/youtube/v3/search', { params });
+      const { data } = await axios.get(
+        'https://www.googleapis.com/youtube/v3/search',
+        {
+          params,
+        },
+      );
 
       this.setState({
         videos: [...this.state.videos, ...data.items],
@@ -76,8 +83,11 @@ class Main extends Component {
     const { props } = this;
     if (props.location) {
       const { search_query } = qs.parse(props.location.search);
-      const { search_query: prev_search_query } = qs.parse(prevProps.location.search);
-      if (search_query !== prev_search_query) this.getYoutubeData(search_query || '');
+      const { search_query: prev_search_query } = qs.parse(
+        prevProps.location.search,
+      );
+      if (search_query !== prev_search_query)
+        this.getYoutubeData(search_query || '');
     }
   }
 
