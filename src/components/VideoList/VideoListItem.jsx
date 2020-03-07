@@ -11,8 +11,7 @@ const VideoListItem = props => {
         href="/"
         onClick={e => {
           e.preventDefault();
-          // props.history.push(`/watch/${selectedVideo.id.videoId}`) // REST API
-          props.history.push(`/watch?v=${video.id.videoId}`); // Query String
+          props.history.push(`/watch?v=${video.id.videoId}`);
         }
       }>
         <figure className="items-inner">
